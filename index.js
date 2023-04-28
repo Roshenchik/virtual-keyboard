@@ -1,7 +1,6 @@
 // create TextArea
 const body = document.querySelector('body');
 body.innerHTML += '<textarea class="textarea" autofocus></textarea>';
-const textarea = document.querySelector('.textarea');
 
 // Create keyboard
 body.innerHTML += '<div class="keyboard"></div>';
@@ -99,6 +98,7 @@ const highlightButton = (e) => {
   keys.forEach((key) => {
     if (key.classList.contains(e.code)) {
       if (e.code === 'Tab') e.preventDefault();
+      if (e.code.includes('Alt')) e.preventDefault();
       key.classList.add('pressed');
     }
   });
@@ -125,11 +125,61 @@ const highlightButtonOnClick = (e) => {
 };
 
 const removeHighlightButtonOnClick = () => {
-  beingClickedButton.classList.remove('pressed');
+  if (beingClickedButton) {
+    beingClickedButton.classList.remove('pressed');
+  }
 };
 
 document.addEventListener('mousedown', highlightButtonOnClick);
 document.addEventListener('mouseup', removeHighlightButtonOnClick);
 
-// get focus on textarea
-textarea.focus();
+// handle input on key click
+const textarea = document.querySelector('.textarea');
+
+let cursorPos = textarea.selectionStart;
+const getCursorPos = () => {
+  cursorPos = textarea.selectionStart;
+  console.log(`cursor position: ${cursorPos}`);
+};
+textarea.addEventListener('click', getCursorPos);
+textarea.addEventListener('input', getCursorPos);
+
+const regainFocus = () => {
+  textarea.focus();
+};
+
+const input = (e) => {
+  // only for keys
+  if (!(e.target.classList.contains('key'))) return;
+
+  e.preventDefault();
+
+  // general keys
+  if (e.target.classList.contains('letter-key')) {
+    const symbol = e.target.textContent;
+    textarea.value = textarea.value.slice(0, cursorPos) + symbol + textarea.value.slice(cursorPos);
+    cursorPos += 1;
+  }
+
+  // handle backspece
+  if (e.target.classList.contains('Backspace')) {
+    if (cursorPos === 0) return;
+    textarea.value = textarea.value.slice(0, cursorPos - 1) + textarea.value.slice(cursorPos);
+    cursorPos -= 1;
+    if (cursorPos < 0) cursorPos = 0;
+  }
+
+  // handle enter
+  if (e.target.classList.contains('Enter')) {
+    textarea.value = `${textarea.value.slice(0, cursorPos)}\n${textarea.value.slice(cursorPos)}`;
+    cursorPos += 1;
+  }
+
+  textarea.selectionStart = cursorPos;
+  textarea.selectionEnd = cursorPos;
+  console.log(`cursor position: ${cursorPos}`);
+
+  regainFocus();
+};
+
+document.addEventListener('mousedown', input);
