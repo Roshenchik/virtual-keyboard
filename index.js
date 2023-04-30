@@ -66,7 +66,14 @@ for (let i = 0; i < 5; i += 1) {
 const lettersRu = ['ё', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.'];
 const lettersEn = ['`', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/'];
 
-let lang = 'en';
+// get language from local storage
+let lang;
+if (localStorage.getItem('language')) {
+  lang = localStorage.getItem('language');
+} else {
+  lang = 'en';
+}
+
 const letterKeys = document.querySelectorAll('.letter-key');
 const setLanguage = (language) => {
   if (language === 'en') {
@@ -436,3 +443,10 @@ document.addEventListener('mousedown', pressShift);
 document.addEventListener('keydown', pressShift);
 document.addEventListener('mouseup', pressShift);
 document.addEventListener('keyup', pressShift);
+
+// save language settings
+const setLocalStorage = () => {
+  localStorage.setItem('language', lang);
+};
+
+window.addEventListener('beforeunload', setLocalStorage);
