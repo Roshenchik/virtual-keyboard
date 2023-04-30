@@ -1,6 +1,6 @@
 // create TextArea
 const body = document.querySelector('body');
-body.innerHTML += '<textarea class="textarea" autofocus></textarea>';
+body.innerHTML += '<textarea class="textarea"></textarea>';
 
 // Create keyboard
 body.innerHTML += '<div class="keyboard"></div>';
@@ -8,7 +8,7 @@ const keyboard = document.querySelector('.keyboard');
 
 // keys and codes for rows
 const row1 = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'];
-const row2 = ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash'];
+const row2 = ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete'];
 const row3 = ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'];
 const row4 = ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight'];
 const row5 = ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
@@ -29,9 +29,13 @@ for (let i = 0; i < 5; i += 1) {
     if (code.includes('Digit')) {
       symb = code.at(-1);
       key.classList.add('digit');
-    } else if (code === 'Minus') symb = '-';
-    else if (code === 'Equal') symb = '=';
-    else if (code === 'ArrowUp') symb = '↑';
+    } else if (code === 'Minus') {
+      symb = '-';
+      key.classList.add('digit');
+    } else if (code === 'Equal') {
+      symb = '=';
+      key.classList.add('digit');
+    } else if (code === 'ArrowUp') symb = '↑';
     else if (code === 'ArrowDown') symb = '↓';
     else if (code === 'ArrowLeft') symb = '←';
     else if (code === 'ArrowRight') symb = '→';
@@ -41,6 +45,7 @@ for (let i = 0; i < 5; i += 1) {
     else if (code.includes('Meta')) symb = 'Win';
     else if (code.includes('Enter')) symb = 'Enter';
     else if (code.includes('Backspace')) symb = 'Backspace';
+    else if (code.includes('Delete')) symb = 'Del';
     else if (code.includes('CapsLock')) symb = 'CapsLock';
     else if (code.includes('Tab')) symb = 'Tab';
     else {
@@ -161,16 +166,21 @@ const textarea = document.querySelector('.textarea');
 
 // get position of bar in text area
 let cursorPos = textarea.selectionStart;
+let selectionEndPos = textarea.selectionEnd;
 const getCursorPos = () => {
   cursorPos = textarea.selectionStart;
+  selectionEndPos = textarea.selectionEnd;
   console.log(`cursor position: ${cursorPos}`);
+  console.log(`end selection position: ${selectionEndPos}`);
 };
 textarea.addEventListener('click', getCursorPos);
 textarea.addEventListener('input', getCursorPos);
 
-// to always keep focus
-const regainFocus = () => {
-  textarea.focus();
+const deleteSelection = () => {
+  if (selectionEndPos !== cursorPos) {
+    textarea.value = textarea.value.slice(0, cursorPos)
+                    + textarea.value.slice(selectionEndPos);
+  }
 };
 
 const typeSymbol = (symb) => {
@@ -187,51 +197,149 @@ const processMouseInput = (e) => {
 
   // handle backspace
   if (e.target.classList.contains('Backspace')) {
-    if (cursorPos === 0) return;
-    textarea.value = textarea.value.slice(0, cursorPos - 1) + textarea.value.slice(cursorPos);
-    cursorPos -= 1;
-    if (cursorPos < 0) cursorPos = 0;
+    if (selectionEndPos !== cursorPos) {
+      deleteSelection();
+    } else {
+      if (cursorPos === 0) return;
+      textarea.value = textarea.value.slice(0, cursorPos - 1) + textarea.value.slice(cursorPos);
+      cursorPos -= 1;
+      if (cursorPos < 0) cursorPos = 0;
+    }
+  }
+
+  // Handle delete
+  if (e.target.classList.contains('Delete')) {
+    if (selectionEndPos !== cursorPos) {
+      deleteSelection();
+    } else {
+      if (cursorPos === textarea.value.length) return;
+      textarea.value = textarea.value.slice(0, cursorPos) + textarea.value.slice(cursorPos + 1);
+    }
   }
 
   // general keys
   if (e.target.classList.contains('letter-key') || e.target.classList.contains('digit')) {
     const symbol = e.target.textContent;
+    deleteSelection();
     typeSymbol(symbol);
   }
   // handle enter
   if (e.target.classList.contains('Enter')) {
+    deleteSelection();
     typeSymbol('\n');
   }
   // handle tab
   if (e.target.classList.contains('Tab')) {
+    deleteSelection();
     typeSymbol('    ');
   }
   // handle space
   if (e.target.classList.contains('Space')) {
+    deleteSelection();
     typeSymbol(' ');
   }
   // handle arrow keys
   if (e.target.classList.contains('ArrowLeft')) {
+    deleteSelection();
     typeSymbol('←');
   }
   if (e.target.classList.contains('ArrowRight')) {
+    deleteSelection();
     typeSymbol('→');
   }
   if (e.target.classList.contains('ArrowUp')) {
+    deleteSelection();
     typeSymbol('↑');
   }
   if (e.target.classList.contains('ArrowDown')) {
+    deleteSelection();
     typeSymbol('↓');
   }
 
   textarea.selectionStart = cursorPos;
   textarea.selectionEnd = cursorPos;
+  selectionEndPos = cursorPos;
   console.log(`cursor position: ${cursorPos}`);
+  console.log(`cursor position: ${selectionEndPos}`);
+};
+document.addEventListener('mousedown', processMouseInput);
 
-  regainFocus();
+// handle input on keyboard press
+const processKeyboardInput = (e) => {
+  // only for keyboard keys
+  if (!e.code) return;
+
+  e.preventDefault();
+
+  // handle backspace
+  if (e.code === 'Backspace') {
+    if (selectionEndPos !== cursorPos) {
+      deleteSelection();
+    } else {
+      if (cursorPos === 0) return;
+      textarea.value = textarea.value.slice(0, cursorPos - 1) + textarea.value.slice(cursorPos);
+      cursorPos -= 1;
+      if (cursorPos < 0) cursorPos = 0;
+    }
+  }
+
+  // Handle delete
+  if (e.code === 'Delete') {
+    if (selectionEndPos !== cursorPos) {
+      deleteSelection();
+    } else {
+      if (cursorPos === textarea.value.length) return;
+      textarea.value = textarea.value.slice(0, cursorPos) + textarea.value.slice(cursorPos + 1);
+    }
+  }
+
+  // handle general keys
+  keys.forEach((key) => {
+    if (key.classList.contains(e.code) && (key.classList.contains('letter-key') || key.classList.contains('digit'))) {
+      const symbol = key.textContent;
+      typeSymbol(symbol);
+    }
+  });
+  // handle enter
+  if (e.code === 'Enter') {
+    deleteSelection();
+    typeSymbol('\n');
+  }
+  // handle tab
+  if (e.code === 'Tab') {
+    deleteSelection();
+    typeSymbol('    ');
+  }
+  // handle space
+  if (e.code === 'Space') {
+    deleteSelection();
+    typeSymbol(' ');
+  }
+  // handle arrow keys
+  if (e.code === 'ArrowLeft') {
+    deleteSelection();
+    typeSymbol('←');
+  }
+  if (e.code === 'ArrowRight') {
+    deleteSelection();
+    typeSymbol('→');
+  }
+  if (e.code === 'ArrowUp') {
+    deleteSelection();
+    typeSymbol('↑');
+  }
+  if (e.code === 'ArrowDown') {
+    deleteSelection();
+    typeSymbol('↓');
+  }
+
+  textarea.selectionStart = cursorPos;
+  textarea.selectionEnd = cursorPos;
+  selectionEndPos = cursorPos;
+  console.log(`cursor position: ${cursorPos}`);
 };
 
-document.addEventListener('mousedown', processMouseInput);
+document.addEventListener('keydown', processKeyboardInput);
 
 // handle CapsLock
 const shiftLeft = document.querySelector('.ShiftLeft');
@@ -306,9 +414,7 @@ const returnNormalKeys = () => {
   });
 };
 
-const pressShift = (e) => {
-  // if ((!e.target.classList.contains('ShiftLeft') && e.code !== 'ShiftLeft') && (!e.target.classList.contains('ShiftRight') && e.code !== 'ShiftRight')) return;
-
+const pressShift = () => {
   if (shiftRight.classList.contains('pressed') || shiftLeft.classList.contains('pressed')) {
     setAlterKeys();
     if (capslock.classList.contains('pressed')) {

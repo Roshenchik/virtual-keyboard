@@ -58,13 +58,19 @@ body {
 .ShiftLeft,
 .ShiftRight,
 .CapsLock,
-.Enter,
+.Enter {
+  width: 120px;
+}
+
+.ShiftRight {
+  width: 120px;
+}
 .Backspace {
   width: 120px;
 }
 .Tab,
-.Backslash {
-  width: 90px;
+.Delete {
+  width: 60px;
 }
 
 .pressed {
