@@ -189,8 +189,8 @@ let selectionEndPos = textarea.selectionEnd;
 const getCursorPos = () => {
   cursorPos = textarea.selectionStart;
   selectionEndPos = textarea.selectionEnd;
-  console.log(`cursor position: ${cursorPos}`);
-  console.log(`end selection position: ${selectionEndPos}`);
+  // console.log(`cursor position: ${cursorPos}`);
+  // console.log(`end selection position: ${selectionEndPos}`);
 };
 textarea.addEventListener('click', getCursorPos);
 textarea.addEventListener('input', getCursorPos);
@@ -278,8 +278,8 @@ const processMouseInput = (e) => {
   textarea.selectionStart = cursorPos;
   textarea.selectionEnd = cursorPos;
   selectionEndPos = cursorPos;
-  console.log(`cursor position: ${cursorPos}`);
-  console.log(`cursor position: ${selectionEndPos}`);
+  // console.log(`cursor position: ${cursorPos}`);
+  // console.log(`cursor position: ${selectionEndPos}`);
 };
 document.addEventListener('mousedown', processMouseInput);
 
@@ -355,7 +355,7 @@ const processKeyboardInput = (e) => {
   textarea.selectionStart = cursorPos;
   textarea.selectionEnd = cursorPos;
   selectionEndPos = cursorPos;
-  console.log(`cursor position: ${cursorPos}`);
+  // console.log(`cursor position: ${cursorPos}`);
 };
 
 document.addEventListener('keydown', processKeyboardInput);
