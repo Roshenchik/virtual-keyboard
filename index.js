@@ -2,6 +2,18 @@
 const body = document.querySelector('body');
 body.innerHTML += '<textarea class="textarea"></textarea>';
 
+const sticker = document.createElement('div');
+sticker.className = 'sticker';
+const stickerTextSystem = document.createElement('p');
+const stickerTextCombination = document.createElement('p');
+stickerTextSystem.className = 'sticker-text';
+stickerTextCombination.className = 'sticker-text';
+stickerTextSystem.textContent = 'Клавиатура создана в операционной системе Windows';
+stickerTextCombination.textContent = 'Для переключения языка комбинация: левыe ctrl + alt';
+sticker.append(stickerTextSystem);
+sticker.append(stickerTextCombination);
+body.prepend(sticker);
+
 // Create keyboard
 body.innerHTML += '<div class="keyboard"></div>';
 const keyboard = document.querySelector('.keyboard');
@@ -10,12 +22,12 @@ const keyboard = document.querySelector('.keyboard');
 const row1 = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'];
 const row2 = ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete'];
 const row3 = ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'];
-const row4 = ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight'];
-const row5 = ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
+const row4 = ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'AltRight', 'ControlRight', 'ArrowUp', 'ShiftRight'];
+const row5 = ['ControlLeft', 'AltLeft', 'MetaLeft', 'Space', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
 const rows = [row1, row2, row3, row4, row5];
 const letterCodes = ['Key', 'Backquote', 'BracketLeft', 'BracketRight', 'Backslash', 'Semicolon', 'Quote', 'Comma', 'Period', 'Slash'];
 // create 5 rows with keys
-for (let i = 0; i < 5; i += 1) {
+for (let i = 0; i < rows.length; i += 1) {
   const row = document.createElement('div');
   row.className = 'row';
   keyboard.append(row);
@@ -39,15 +51,15 @@ for (let i = 0; i < 5; i += 1) {
     else if (code === 'ArrowDown') symb = '↓';
     else if (code === 'ArrowLeft') symb = '←';
     else if (code === 'ArrowRight') symb = '→';
-    else if (code.includes('Shift')) symb = 'Shift';
+    else if (code.includes('Shift')) symb = '⇧';
     else if (code.includes('Control')) symb = 'Ctrl';
     else if (code.includes('Alt')) symb = 'Alt';
-    else if (code.includes('Meta')) symb = 'Win';
-    else if (code.includes('Enter')) symb = 'Enter';
-    else if (code.includes('Backspace')) symb = 'Backspace';
+    else if (code.includes('Meta')) symb = '⊞';
+    else if (code.includes('Enter')) symb = '⏎';
+    else if (code.includes('Backspace')) symb = '⌫';
     else if (code.includes('Delete')) symb = 'Del';
-    else if (code.includes('CapsLock')) symb = 'CapsLock';
-    else if (code.includes('Tab')) symb = 'Tab';
+    else if (code.includes('CapsLock')) symb = '⇪';
+    else if (code.includes('Tab')) symb = '↹';
     else {
       letterCodes.forEach((letterCode) => {
         if (code.includes(letterCode)) {
