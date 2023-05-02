@@ -98,6 +98,9 @@ body {
   gap: 110px;
   width: 60px;
   height: 60px;
+  background: linear-gradient(rgba(21, 34, 51, 0.8), rgb(5, 8, 14, 1)), url('./assets/360_F_333239800_7VXmreS24vuNbcfH5BojreA9iUdtGU0D.jpg');
+  background-size: auto;
+  overflow: hidden;
   background-color: rgb(14, 24, 37);
   color: rgb(203, 143, 78);
   border: 3.5px solid rgb(126, 89, 48);
