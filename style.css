@@ -3,12 +3,24 @@
 }
 
 body {
-  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), linear-gradient(rgba(62, 31, 37, 0.8), rgba(76, 36, 39, 0.3)), url("./assets/red-texture-image-3840x2400.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), linear-gradient(rgba(62, 31, 37, 0.8), rgba(76, 36, 39, 0.3)), url("./assets/red-texture-image-3840x2400.jpg");
   background-size: 100vw 100vh;
   background-repeat: no-repeat;
 }
 
+::selection {
+  background: #333;
+  color: #e5e2d9;
+}
+
+.textarea::selection {
+  background: transparent;
+  color: #333;
+  text-decoration: line-through;
+}
+
 .textarea {
+  padding: 10px;
   width: 60%;
   height: 30%;
   position: fixed;
@@ -17,6 +29,7 @@ body {
   transform: translate(50%, -50%);
   box-shadow: inset 0px 0px 15px 2px rgba(0, 0, 0);;
   background: url('./assets/1665143797_3-53.jpg');
+  border: none;
   font-family: 'Courier New', Courier, monospace;
   line-height: 1.25;
   color: #333;
@@ -104,7 +117,7 @@ body {
 }
 .pressed {
   color: rgb(233, 208, 181);
-  text-shadow: 0px 0px 3px rgb(246, 231, 215);
+  text-shadow: 0px 0px 7px rgb(246, 231, 215);
 
   /* border: 3.5px solid rgb(192, 140, 76); */
   box-shadow: 0px 0px 5px 2px rgba(0, 0, 0);
