@@ -462,3 +462,95 @@ const setLocalStorage = () => {
 };
 
 window.addEventListener('beforeunload', setLocalStorage);
+
+// Typewriter audio
+const keySound = new Audio();
+keySound.src = './assets/typewriter-sounds/key-sound1.mp3';
+
+let prevKey = null;
+const getRandomNumber = (min, max) => {
+  let randomNum;
+  do {
+    randomNum = min + (Math.round(Math.random() * (max - min)));
+  } while (prevKey === randomNum);
+  prevKey = randomNum;
+  return randomNum;
+};
+
+let isKeyPressed = false;
+let isFirstClick = true;
+
+const keysArr = Array.from(keys);
+
+const playKeyboardInput = (e) => {
+  const isVirtualKey = keysArr.some((key) => key.classList.contains(e.code));
+  if (!isVirtualKey) return;
+  if (isKeyPressed) return;
+  if (isFirstClick) {
+    if (e.code === 'ShiftLeft') return;
+    if (e.code === 'ShiftRight') return;
+    if (e.code === 'AltLeft') return;
+    if (e.code === 'AltRight') return;
+    if (e.code === 'ControlLeft') return;
+    if (e.code === 'ControlRight') return;
+    if (e.code === 'CapsLock') return;
+  }
+
+  isKeyPressed = true;
+  isFirstClick = false;
+
+  const randomKeySound = getRandomNumber(1, 6);
+  const randomSpaceSound = (randomKeySound % 2) + 1;
+
+  if (keySound && !keySound.paused) {
+    keySound.pause();
+  }
+
+  if (e.code === 'Space') {
+    keySound.src = `./assets/typewriter-sounds/space-sound${randomSpaceSound}.mp3`;
+    keySound.currentTime = 0;
+    keySound.play();
+  } else if (e.code === 'Enter') {
+    keySound.src = './assets/typewriter-sounds/new-line-sound.mp3';
+    keySound.currentTime = 0;
+    keySound.play();
+  } else {
+    keySound.src = `./assets/typewriter-sounds/key-sound${randomKeySound}.mp3`;
+    keySound.currentTime = 0;
+    keySound.play();
+  }
+};
+
+document.addEventListener('keyup', () => {
+  isKeyPressed = false;
+});
+
+document.addEventListener('keydown', playKeyboardInput);
+
+const playKeyClick = (e) => {
+  if (!e.target.classList.contains('key')) return;
+
+  isFirstClick = false;
+
+  const randomKeySound = getRandomNumber(1, 6);
+  const randomSpaceSound = (randomKeySound % 2) + 1;
+
+  if (keySound && !keySound.paused) {
+    keySound.pause();
+  }
+
+  if (e.target.classList.contains('Space')) {
+    keySound.src = `./assets/typewriter-sounds/space-sound${randomSpaceSound}.mp3`;
+    keySound.currentTime = 0;
+    keySound.play();
+  } else if (e.target.classList.contains('Enter')) {
+    keySound.src = './assets/typewriter-sounds/new-line-sound.mp3';
+    keySound.currentTime = 0;
+    keySound.play();
+  } else {
+    keySound.src = `./assets/typewriter-sounds/key-sound${randomKeySound}.mp3`;
+    keySound.currentTime = 0;
+    keySound.play();
+  }
+};
+document.addEventListener('mousedown', playKeyClick);
