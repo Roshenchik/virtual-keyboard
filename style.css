@@ -1,0 +1,207 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), linear-gradient(rgba(62, 31, 37, 0.8), rgba(76, 36, 39, 0.3)), url("./assets/red-texture-image-3840x2400.jpg");
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+}
+
+::selection {
+  background: #333;
+  color: #e5e2d9;
+}
+
+.textarea::selection {
+  background: transparent;
+  color: #333;
+  text-decoration: line-through;
+}
+
+.textarea {
+  padding: 10px;
+  width: 60%;
+  height: 30%;
+  position: fixed;
+  top: 25%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  box-shadow: inset 0px 0px 15px 2px rgba(0, 0, 0);;
+  background: url('./assets/1665143797_3-53.jpg');
+  border: none;
+  font-family: 'Courier New', Courier, monospace;
+  line-height: 1.25;
+  color: #333;
+  background-size: cover;
+
+  font-size: 30px;
+}
+
+.sticker {
+  z-index: 1;
+  top: -1%;
+  right: 3%;
+  transform: rotate(-18deg);
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  padding: 10px;
+  background: url('./assets/torn-paper-vintage-sticker-with-space-area-free-png.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Courier New', Courier, monospace;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.sticker-text {
+  color: #333;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+.sticker-text:last-child {
+  margin-top:15px;
+}
+
+.keyboard {
+  position: fixed;
+  top: 70%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: auto;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  width: auto;
+  display: flex;
+}
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.key {
+  margin: 0 5px;
+  gap: 110px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(rgba(21, 34, 51, 0.8), rgb(5, 8, 14, 1)), url('./assets/360_F_333239800_7VXmreS24vuNbcfH5BojreA9iUdtGU0D.jpg');
+  background-size: auto;
+  overflow: hidden;
+  background-color: rgb(14, 24, 37);
+  color: rgb(203, 143, 78);
+  border: 3.5px solid rgb(126, 89, 48);
+  box-shadow: 0px 0px 7px 5px rgba(0, 0, 0);
+  font-size: 25px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.2s, transform 0s, box-shadow 0s;
+}
+.key:hover {
+  color: rgb(233, 208, 181);
+  text-shadow: 0px 0px 3px rgb(246, 231, 215);
+}
+.pressed {
+  color: rgb(233, 208, 181);
+  text-shadow: 0px 0px 7px rgb(246, 231, 215);
+
+  /* border: 3.5px solid rgb(192, 140, 76); */
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0);
+  transform: scale(95%);
+}
+
+.Space {
+  width: 620px;
+}
+.Space:hover {
+  border-color: rgb(233, 208, 181);
+}
+.Space.pressed {
+  border-color: rgb(233, 208, 181);
+}
+
+.CapsLock.pressed {
+  margin-right: 10px;
+  border-color: rgb(233, 208, 181);
+}
+
+.Backspace {
+  margin-left: 10px;
+  width: 70px;
+  height: 70px;
+}
+
+.Tab {
+  margin-right: 10px;
+  width: 70px;
+  height: 70px;
+}
+
+.Enter,
+.CapsLock {
+  width: 70px;
+  height: 70px;
+}
+.Enter {
+  margin-left: 10px;
+}
+.CapsLock {
+  margin-right: 10px;
+}
+
+.Delete {
+  margin-left: 10px;
+  width: 70px;
+  height: 70px;
+}
+
+.ShiftRight,
+.ShiftLeft {
+  width: 70px;
+  height: 70px;
+}
+.ShiftLeft {
+  margin-right: 10px;
+}
+.ShiftRight {
+  margin-left: 10px;
+}
+
+.ArrowUp {
+  margin-left: 15px;
+  transform: translateY(5px);
+}
+.ArrowLeft {
+  margin-left: 15px;
+}
+.ArrowRight,
+.ArrowLeft,
+.ArrowUp,
+.ArrowDown {
+  transform: scale(90%);
+  border-radius: 10px;
+  aspect-ratio: 1;
+}
+.ArrowRight.pressed,
+.ArrowLeft.pressed,
+.ArrowUp.pressed,
+.ArrowDown.pressed {
+  transform: scale(85%);
+}
